@@ -356,7 +356,7 @@ const TagManager = (() => {
                             class="
                                 text-xs
                                 font-medium
-                                text-cyan-300
+                                text-cyan-700 dark:text-cyan-300
                             "
                         >
                             0 selected
@@ -367,8 +367,7 @@ const TagManager = (() => {
                             id="tmClearSelection"
                             class="
                                 text-[11px]
-                                text-slate-500
-                                hover:text-white
+                                text-slate-600 dark:text-slate-500 hover:text-slate-900 dark:hover:text-white
                             "
                         >
                             Clear
@@ -383,14 +382,12 @@ const TagManager = (() => {
                             id="tmRename"
                             class="
                                 rounded-md
-                                border border-slate-700
-                                bg-slate-800
+                                border border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300
                                 px-2.5 py-1.5
                                 text-[11px]
-                                text-slate-300
                                 transition
-                                hover:bg-slate-700
-                            "
+                            hover:bg-slate-200 dark:hover:bg-slate-700
+                                "
                         >
                             Rename
                         </button>
@@ -400,13 +397,11 @@ const TagManager = (() => {
                             id="tmMerge"
                             class="
                                 rounded-md
-                                border border-slate-700
-                                bg-slate-800
+                                border border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 
                                 px-2.5 py-1.5
                                 text-[11px]
-                                text-slate-300
                                 transition
-                                hover:bg-slate-700
+                               hover:bg-slate-200 dark:hover:bg-slate-700
                             "
                         >
                             Merge
@@ -421,7 +416,7 @@ const TagManager = (() => {
                                 bg-rose-500/10
                                 px-2.5 py-1.5
                                 text-[11px]
-                                text-rose-400
+                                text-rose-600 dark:text-rose-400
                                 transition
                                 hover:bg-rose-500/15
                             "
@@ -535,85 +530,44 @@ const TagManager = (() => {
     function renderTagList(counts) {
 
         if (currentTags.length === 0) {
-
             return `
-
-                <div class="px-4 py-8 text-center">
-
-                    <p class="text-xs text-slate-500">
-                        No tags found
-                    </p>
-
-                    <p class="mt-1 text-[10px] text-slate-500 dark:text-slate-300">
-                        Tags will appear here when
-                        items contain tags.
-                    </p>
-
-                </div>
-
-            `;
+            <div class="px-4 py-8 text-center">
+                <p class="text-xs text-slate-500">No tags found</p>
+                <p class="mt-1 text-[10px] text-slate-500 dark:text-slate-300">
+                    Tags will appear here when items contain tags.
+                </p>
+            </div>
+        `;
         }
 
         return currentTags.map(tag => {
 
-            const checked =
-                selectedTags.has(tag);
-
-            const count =
-                counts[tag] || 0;
+            const checked = selectedTags.has(tag);
+            const count = counts[tag] || 0;
 
             return `
+            <label class="flex cursor-pointer items-center gap-3
+                          border-b border-slate-200 dark:border-slate-800
+                          px-3 py-2 last:border-0 transition
+                          hover:bg-slate-100 dark:hover:bg-slate-800/50">
 
-                <label
-                    class="
-                        flex cursor-pointer
-                        items-center gap-3
-                        border-b border-slate-800
-                        px-3 py-2
-                        last:border-0
-                        transition
-                        hover:bg-slate-800/50
-                    "
-                >
+                <input type="checkbox"
+                       class="tm-tag-checkbox h-3.5 w-3.5 accent-cyan-500"
+                       data-tag="${escapeAttr(tag)}"
+                       ${checked ? "checked" : ""}>
 
-                    <input
-                        type="checkbox"
-                        class="
-                            tm-tag-checkbox
-                            h-3.5 w-3.5
-                            accent-cyan-400
-                        "
-                        data-tag="${escapeAttr(tag)}"
-                        ${checked ? "checked" : ""}
-                    >
+                <span class="min-w-0 flex-1 truncate text-xs
+                             text-slate-800 dark:text-slate-300">
+                    ${escape(tag)}
+                </span>
 
-                    <span
-                        class="
-                            min-w-0 flex-1
-                            truncate
-                            text-xs
-                            text-slate-300
-                        "
-                    >
-                        ${escape(tag)}
-                    </span>
-
-                    <span
-                        class="
-                            shrink-0
-                            rounded-md
-                            bg-slate-800
-                            px-1.5 py-0.5
-                            text-[10px]
-                            text-slate-500
-                        "
-                    >
-                        ${count}
-                    </span>
-
-                </label>
-
-            `;
+                <span class="shrink-0 rounded-md px-1.5 py-0.5 text-[10px]
+                             bg-slate-200 dark:bg-slate-800
+                             text-slate-600 dark:text-slate-400">
+                    ${count}
+                </span>
+            </label>
+        `;
 
         }).join("");
     }
